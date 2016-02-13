@@ -1,0 +1,14 @@
+Develop the code needed for the GUI supplied in the assignment start files. As is, this GUI reads stock data from a CSV file and stores them in an ArrayList.
+
+The code you develop should add the following capabilities to the GUI:
+
+    Load the stock data into the following collections: FIFO queue (i.e., a LinkedList), HashMap, and TreeMap.
+    Display on the GUI the contents of the queue, HashMap, and TreeMap.
+    Provide the actions implied by the buttons on the GUI - display the contents of the affected collection after each action.
+    Prevent the GUI from crashing due to invalid user input.
+    Reset the GUI back to its initial state (i.e., the collections contain only the original stock data loaded from the CSV file).
+
+Additional Challenges (for exam preparation):
+
+    Replace the Stock class that came with the start files with the attached version of the Stock class.
+    Instead of using separate private methods to display the HashMap and TreeMap contents, write a single private method that can display the contents of any map.
