@@ -8,9 +8,6 @@ package collections.ui;
 import collections.data.Stock;
 import collections.io.StockDataFile;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.HashMap; 
-import java.util.TreeMap; 
 
 /**
  *
@@ -19,9 +16,7 @@ import java.util.TreeMap;
 public class CollectionsForm extends javax.swing.JFrame {
 
     // Object fields
-    private ArrayList<Stock> stockData;
-    private LinkedList<Stock> linkedStock; 
-    private TreeMap<Stock, Stock> treeStock; 
+    private ArrayList <Stock> stockData;
     
     /**
      * Creates new form CollectionsFrame
@@ -34,25 +29,7 @@ public class CollectionsForm extends javax.swing.JFrame {
         if (stockData == null) {
             System.exit(0);
         }
-        
-       
-      
-
     }
-    
-    private String displayHashMap(){
-        
-        HashMap<String, String> hashStock = new HashMap<>(); 
-        for(Stock stock : stockData){
-            hashStock.put(stock.ticker, stock.price);
-        }
-        for (int i=0; i< hashStock.size(); i++){
-        String index = hashStock.get(i); 
-            queueTextArea.setText(index); 
-        }
-
-   
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -193,11 +170,6 @@ public class CollectionsForm extends javax.swing.JFrame {
         );
 
         resetButton.setText("Reset");
-        resetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                resetButtonActionPerformed(evt);
-            }
-        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel1.setText("ICIS 304 Collections Application Challenge");
@@ -266,11 +238,6 @@ public class CollectionsForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
-        // TODO add your handling code here:
-         displayHashMap();
-    }//GEN-LAST:event_resetButtonActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -306,7 +273,6 @@ public class CollectionsForm extends javax.swing.JFrame {
             }
         });
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton hashAddButton;
