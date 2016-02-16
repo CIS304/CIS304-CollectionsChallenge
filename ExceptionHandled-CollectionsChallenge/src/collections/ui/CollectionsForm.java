@@ -8,6 +8,9 @@ package collections.ui;
 import collections.data.Stock;
 import collections.io.StockDataFile;
 import java.util.ArrayList;
+import java.util.LinkedList; 
+import java.util.HashMap;
+import java.util.TreeMap; 
 
 /**
  *
@@ -16,8 +19,11 @@ import java.util.ArrayList;
 public class CollectionsForm extends javax.swing.JFrame {
 
     // Object fields
-    private ArrayList <Stock> stockData;
-    
+    private final ArrayList <Stock> stockData;
+    private LinkedList <Stock> queue; 
+    private HashMap<String, String> hashMap; 
+    private TreeMap<String, String> treeMap; 
+   
     /**
      * Creates new form CollectionsFrame
      */
@@ -28,7 +34,33 @@ public class CollectionsForm extends javax.swing.JFrame {
         stockData = StockDataFile.getData();
         if (stockData == null) {
             System.exit(0);
+        } else {
+            reload();
         }
+        
+        //Load data from arrayList into Linked List 
+        LinkedList<String> linkedStock = new LinkedList<>(); 
+        for(Stock s : stockData){
+            
+        }
+        
+        for (int i=0; i<linkedStock.size(); i++){
+            String string = linkedStock.get(i);
+            queueTextArea.setText(string);
+        }
+        
+        //Load data from arrayList into HashMap
+        HashMap<String, String> hashStock = new HashMap<>(); 
+        for(Stock stock : stockData){
+            hashStock.put(stock.ticker, stock.price);
+        }
+        for (int i=0; i< hashStock.size(); i++){
+            String s = hashStock.get(i);
+            hashMapTextArea.setText(s); 
+        }
+        
+        
+
     }
 
     /**
@@ -241,6 +273,31 @@ public class CollectionsForm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
+    private void reload(){
+        //Display original data on the GUI 
+        queue = new LinkedList<>(stockData); 
+         
+        
+        displayQueue();
+        
+    }
+    
+    private void displayQueue(){
+       // String outString = "Ticker\tPrice\n";
+        StringBuilder display = new StringBuilder();
+        display.append("Ticker\tPrice\n"); 
+        
+        for (Stock s : stockData){
+           //outString += s.ticker +"\t" + s.price + "\n"; 
+           display.append(s.ticker).append(("\t")).append(s.price).append("\n"); 
+        } 
+        queueTextArea.setText(display.toString());
+        
+        //This code is considered inefficient as it it creates and destroys objects more than needed 
+        //queueTextArea.setText(outString);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -273,7 +330,7 @@ public class CollectionsForm extends javax.swing.JFrame {
             }
         });
     }
-
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton hashAddButton;
     private javax.swing.JButton hashDeleteButton;
