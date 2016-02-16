@@ -8,9 +8,11 @@ package collections.ui;
 import collections.data.Stock;
 import collections.io.StockDataFile;
 import java.util.ArrayList;
-import java.util.LinkedList; 
+import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.TreeMap; 
+import java.util.Map;
+import java.util.TreeMap;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -19,11 +21,11 @@ import java.util.TreeMap;
 public class CollectionsForm extends javax.swing.JFrame {
 
     // Object fields
-    private final ArrayList <Stock> stockData;
-    private LinkedList <Stock> queue; 
-    private HashMap<String, String> hashMap; 
-    private TreeMap<String, String> treeMap; 
-   
+    private final ArrayList<Stock> stockData;
+    private LinkedList<Stock> queue;
+    private HashMap<String, String> hashMap;
+    private TreeMap<String, String> treeMap;
+
     /**
      * Creates new form CollectionsFrame
      */
@@ -37,30 +39,6 @@ public class CollectionsForm extends javax.swing.JFrame {
         } else {
             reload();
         }
-        
-        //Load data from arrayList into Linked List 
-        LinkedList<String> linkedStock = new LinkedList<>(); 
-        for(Stock s : stockData){
-            
-        }
-        
-        for (int i=0; i<linkedStock.size(); i++){
-            String string = linkedStock.get(i);
-            queueTextArea.setText(string);
-        }
-        
-        //Load data from arrayList into HashMap
-        HashMap<String, String> hashStock = new HashMap<>(); 
-        for(Stock stock : stockData){
-            hashStock.put(stock.ticker, stock.price);
-        }
-        for (int i=0; i< hashStock.size(); i++){
-            String s = hashStock.get(i);
-            hashMapTextArea.setText(s); 
-        }
-        
-        
-
     }
 
     /**
@@ -103,8 +81,18 @@ public class CollectionsForm extends javax.swing.JFrame {
         jScrollPane1.setViewportView(queueTextArea);
 
         queueAddButton.setText("Add (to Tail)");
+        queueAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queueAddButtonActionPerformed(evt);
+            }
+        });
 
         queueRemoveButton.setText("Remove (from Head)");
+        queueRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                queueRemoveButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,8 +124,18 @@ public class CollectionsForm extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Hash Map"));
 
         hashAddButton.setText("Add / Update");
+        hashAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hashAddButtonActionPerformed(evt);
+            }
+        });
 
         hashDeleteButton.setText("Delete");
+        hashDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                hashDeleteButtonActionPerformed(evt);
+            }
+        });
 
         hashMapTextArea.setColumns(15);
         hashMapTextArea.setRows(5);
@@ -170,8 +168,18 @@ public class CollectionsForm extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tree Map"));
 
         treeAddButton.setText("Add / Update");
+        treeAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treeAddButtonActionPerformed(evt);
+            }
+        });
 
         treeDeleteButton.setText("Delete");
+        treeDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                treeDeleteButtonActionPerformed(evt);
+            }
+        });
 
         treeMapTextArea.setColumns(15);
         treeMapTextArea.setRows(5);
@@ -202,6 +210,11 @@ public class CollectionsForm extends javax.swing.JFrame {
         );
 
         resetButton.setText("Reset");
+        resetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetButtonActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
         jLabel1.setText("ICIS 304 Collections Application Challenge");
@@ -270,34 +283,120 @@ public class CollectionsForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void queueAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueAddButtonActionPerformed
+        if (isValidData()) {
+            Stock newStock = new Stock(tickerField.getText(), priceField.getText());
+            queue.add(newStock);
+            displayQueue();
+        }
+
+    }//GEN-LAST:event_queueAddButtonActionPerformed
+
+    private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
+        reload();
+    }//GEN-LAST:event_resetButtonActionPerformed
+
+    private void queueRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueRemoveButtonActionPerformed
+        queue.poll();
+        displayQueue();
+    }//GEN-LAST:event_queueRemoveButtonActionPerformed
+
+    private void hashAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAddButtonActionPerformed
+       if(isValidData()){
+        Stock newStock = new Stock(tickerField.getText(), priceField.getText());
+        hashMap.put(newStock.ticker, newStock.price);
+        displayMaps(hashMap, hashMapTextArea);
+       }
+    }//GEN-LAST:event_hashAddButtonActionPerformed
+
+    private void hashDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashDeleteButtonActionPerformed
+
+        hashMap.remove(tickerField.getText().toUpperCase());
+        displayMaps(hashMap, hashMapTextArea);
+    }//GEN-LAST:event_hashDeleteButtonActionPerformed
+
+    private void treeAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeAddButtonActionPerformed
+        Stock newStock = new Stock(tickerField.getText(), priceField.getText());
+
+        treeMap.put(newStock.ticker, newStock.price);
+        displayMaps(treeMap, treeMapTextArea);
+    }//GEN-LAST:event_treeAddButtonActionPerformed
+
+    private void treeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDeleteButtonActionPerformed
+
+        treeMap.remove(tickerField.getText().toUpperCase());
+        displayMaps(treeMap, treeMapTextArea);
+    }//GEN-LAST:event_treeDeleteButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    
-    private void reload(){
+    private void reload() {
         //Display original data on the GUI 
-        queue = new LinkedList<>(stockData); 
-         
-        
+        queue = new LinkedList<>(stockData);
         displayQueue();
-        
+
+        hashMap = new HashMap<>();
+        treeMap = new TreeMap<>();
+        for (Stock s : stockData) {
+            hashMap.put(s.ticker, s.price);
+            treeMap.put(s.ticker, s.price);
+        }
+
+        for (Stock s : stockData) {
+            hashMap.put(s.ticker, s.price);
+        }
+        displayMaps(hashMap, hashMapTextArea);
+        displayMaps(treeMap, treeMapTextArea);
     }
-    
-    private void displayQueue(){
-       // String outString = "Ticker\tPrice\n";
+
+    private void displayQueue() {
+        // String outString = "Ticker\tPrice\n";
         StringBuilder display = new StringBuilder();
-        display.append("Ticker\tPrice\n"); 
-        
-        for (Stock s : stockData){
-           //outString += s.ticker +"\t" + s.price + "\n"; 
-           display.append(s.ticker).append(("\t")).append(s.price).append("\n"); 
-        } 
+        if (queue.isEmpty()) {
+            display.append("Empty");
+        } else {
+            display.append("Ticker\tPrice\n");
+
+            for (Stock s : queue) {
+                //outString += s.ticker +"\t" + s.price + "\n"; 
+                display.append(s.ticker).append(("\t")).append(s.price).append("\n");
+            }
+
+            //This code is considered inefficient as it it creates and destroys objects more than needed 
+            //queueTextArea.setText(outString);
+        }
         queueTextArea.setText(display.toString());
-        
-        //This code is considered inefficient as it it creates and destroys objects more than needed 
-        //queueTextArea.setText(outString);
+
+        //Scroll text area back up to the top of the list 
+        queueTextArea.setCaretPosition(0);
     }
-    
+
+    private void displayMaps(Map<String, String> map, JTextArea mapTextArea) {
+        StringBuilder display = new StringBuilder();
+        if (map.isEmpty()) {
+            display.append("Empty");
+        } else {
+            display.append("Ticker\tPrice\n");
+
+            for (Map.Entry s : map.entrySet()) {
+                //outString += s.ticker +"\t" + s.price + "\n"; 
+                display.append(s.getKey()).append(("\t")).append(s.getValue()).append("\n");
+            }
+
+        }
+        mapTextArea.setText(display.toString());
+        //Scroll text area back up to the top of the list 
+        mapTextArea.setCaretPosition(0);
+    }
+
+    private boolean isValidData() {
+        SwingValidator sv = new SwingValidator();
+        return sv.isPresent(tickerField, jLabel2.getText())
+                && sv.isPresent(priceField, jLabel3.getText())
+                && sv.isDoublePositive(priceField, jLabel3.getText());
+    }
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -316,7 +415,7 @@ public class CollectionsForm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
+
         //</editor-fold>
         //</editor-fold>
 
@@ -330,7 +429,7 @@ public class CollectionsForm extends javax.swing.JFrame {
             }
         });
     }
-   
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton hashAddButton;
     private javax.swing.JButton hashDeleteButton;
