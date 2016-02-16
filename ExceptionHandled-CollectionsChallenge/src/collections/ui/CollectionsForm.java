@@ -297,8 +297,10 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void queueRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueRemoveButtonActionPerformed
+        if(isDeleteValid()){
         queue.poll();
         displayQueue();
+        }
     }//GEN-LAST:event_queueRemoveButtonActionPerformed
 
     private void hashAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAddButtonActionPerformed
@@ -310,9 +312,10 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_hashAddButtonActionPerformed
 
     private void hashDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashDeleteButtonActionPerformed
-
+if (isDeleteValid()){
         hashMap.remove(tickerField.getText().toUpperCase());
         displayMaps(hashMap, hashMapTextArea);
+}
     }//GEN-LAST:event_hashDeleteButtonActionPerformed
 
     private void treeAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeAddButtonActionPerformed
@@ -323,9 +326,10 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_treeAddButtonActionPerformed
 
     private void treeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDeleteButtonActionPerformed
-
+if(isDeleteValid()){
         treeMap.remove(tickerField.getText().toUpperCase());
         displayMaps(treeMap, treeMapTextArea);
+}
     }//GEN-LAST:event_treeDeleteButtonActionPerformed
 
     /**
@@ -395,6 +399,12 @@ public class CollectionsForm extends javax.swing.JFrame {
         return sv.isPresent(tickerField, jLabel2.getText())
                 && sv.isPresent(priceField, jLabel3.getText())
                 && sv.isDoublePositive(priceField, jLabel3.getText());
+    }
+    
+    private boolean isDeleteValid(){
+        //check values before allowing delete button to work 
+        SwingValidator sv = new SwingValidator();
+        return sv.isPresent(tickerField, jLabel2.getText()); 
     }
 
     public static void main(String args[]) {
