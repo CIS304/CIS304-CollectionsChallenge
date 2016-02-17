@@ -76,6 +76,7 @@ public class CollectionsForm extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Queue (Linked List)"));
 
+        queueTextArea.setEditable(false);
         queueTextArea.setColumns(15);
         queueTextArea.setRows(5);
         jScrollPane1.setViewportView(queueTextArea);
@@ -137,6 +138,7 @@ public class CollectionsForm extends javax.swing.JFrame {
             }
         });
 
+        hashMapTextArea.setEditable(false);
         hashMapTextArea.setColumns(15);
         hashMapTextArea.setRows(5);
         jScrollPane2.setViewportView(hashMapTextArea);
@@ -181,6 +183,7 @@ public class CollectionsForm extends javax.swing.JFrame {
             }
         });
 
+        treeMapTextArea.setEditable(false);
         treeMapTextArea.setColumns(15);
         treeMapTextArea.setRows(5);
         jScrollPane3.setViewportView(treeMapTextArea);
@@ -217,7 +220,7 @@ public class CollectionsForm extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 3, 14)); // NOI18N
-        jLabel1.setText("ICIS 304 Collections Application Challenge");
+        jLabel1.setText("CIS 304 Collections Application Challenge");
 
         tickerField.setColumns(8);
 
@@ -297,39 +300,40 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void queueRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueRemoveButtonActionPerformed
-        if(isDeleteValid()){
-        queue.poll();
-        displayQueue();
+        if (isDeleteValid()) {
+            queue.poll();
+            displayQueue();
         }
     }//GEN-LAST:event_queueRemoveButtonActionPerformed
 
     private void hashAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAddButtonActionPerformed
-       if(isValidData()){
-        Stock newStock = new Stock(tickerField.getText(), priceField.getText());
-        hashMap.put(newStock.ticker, newStock.price);
-        displayMaps(hashMap, hashMapTextArea);
-       }
+        if (isValidData()) {
+            Stock newStock = new Stock(tickerField.getText(), priceField.getText());
+            hashMap.put(newStock.ticker, newStock.price);
+            displayMaps(hashMap, hashMapTextArea);
+        }
     }//GEN-LAST:event_hashAddButtonActionPerformed
 
     private void hashDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashDeleteButtonActionPerformed
-if (isDeleteValid()){
-        hashMap.remove(tickerField.getText().toUpperCase());
-        displayMaps(hashMap, hashMapTextArea);
-}
+        if (isDeleteValid()) {
+            hashMap.remove(tickerField.getText().toUpperCase());
+            displayMaps(hashMap, hashMapTextArea);
+        }
     }//GEN-LAST:event_hashDeleteButtonActionPerformed
 
     private void treeAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeAddButtonActionPerformed
-        Stock newStock = new Stock(tickerField.getText(), priceField.getText());
-
-        treeMap.put(newStock.ticker, newStock.price);
-        displayMaps(treeMap, treeMapTextArea);
+        if (isValidData()) {
+            Stock newStock = new Stock(tickerField.getText(), priceField.getText());
+            treeMap.put(newStock.ticker, newStock.price);
+            displayMaps(treeMap, treeMapTextArea);
+        }
     }//GEN-LAST:event_treeAddButtonActionPerformed
 
     private void treeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDeleteButtonActionPerformed
-if(isDeleteValid()){
-        treeMap.remove(tickerField.getText().toUpperCase());
-        displayMaps(treeMap, treeMapTextArea);
-}
+        if (isDeleteValid()) {
+            treeMap.remove(tickerField.getText().toUpperCase());
+            displayMaps(treeMap, treeMapTextArea);
+        }
     }//GEN-LAST:event_treeDeleteButtonActionPerformed
 
     /**
@@ -398,13 +402,18 @@ if(isDeleteValid()){
         SwingValidator sv = new SwingValidator();
         return sv.isPresent(tickerField, jLabel2.getText())
                 && sv.isPresent(priceField, jLabel3.getText())
-                && sv.isDoublePositive(priceField, jLabel3.getText());
+                && sv.isDoublePositive(priceField, jLabel3.getText())
+                && sv.isTickerValid(tickerField, jLabel2.getText());
+
     }
-    
-    private boolean isDeleteValid(){
+
+    private boolean isDeleteValid() {
         //check values before allowing delete button to work 
         SwingValidator sv = new SwingValidator();
-        return sv.isPresent(tickerField, jLabel2.getText()); 
+        return sv.isPresent(tickerField, jLabel2.getText())
+                && sv.isTickerValid(tickerField, tickerField.getText())
+                && sv.isDeleteLinkedListValid(queue, tickerField);
+
     }
 
     public static void main(String args[]) {

@@ -1,7 +1,9 @@
 package collections.ui;
 
+import collections.data.Stock;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
+import java.util.LinkedList; 
 
 /**
  * Validates data entered in Swing GUIs and displays error messages in dialog
@@ -125,6 +127,39 @@ public class SwingValidator {
             return false;
         }
     }
+
+    /**
+     * Check Ticker to make sure it does not have any number values 
+     * @return True is field is a valid Sting with no numeric values, otherwise return false. 
+     */
+        
+    public boolean isTickerValid(JTextComponent component, String ticker){
+        String message = " must be a string with no numeric values: example ABC or DEF";
+        for(char c : ticker.toString().toCharArray()){
+            if (Character.isDigit(c)){
+                       showMessage(component, ticker + message);
+            return false;  
+            }
+        }
+        return true; 
+    }
+    
+        /**
+     * checks to see if the Ticker value is in the current Linked List 
+     * @return true if the ticker is found in linked list, otherwise return false   
+     */
+    public boolean isDeleteLinkedListValid(LinkedList<Stock> linkedList,JTextField inputArea){ 
+        String input = inputArea.getText(); 
+        for (Stock s : linkedList){
+            linkedList.contains(input);
+            return true; 
+        } 
+        showMessage(inputArea, input);
+        return false; 
+    }
+
+    
+
 
     // Display the error message in a dialog box with "Invalid Entry" as the
     // dialog box title.
