@@ -154,14 +154,15 @@ public class SwingValidator {
      * @return true if the ticker is found in map, otherwise return
      * false
      */
-    public boolean isDeleteMapValid(Map<String, String> map, JTextField ticker, JTextField price) {
-        Stock newStock = new Stock(ticker.getText(), price.getText());
-        for (int i = 0; i < map.size(); i++) {
-            map.containsValue(newStock.ticker);
-            return true;
+    public boolean isTickerInMap(Map<String, String> map, JTextField tickerInput) {
+        String ticker = tickerInput.getText(); 
+        if(map.containsKey(ticker.toUpperCase())){
+            System.out.println("Ticker: " + ticker.toUpperCase() + "is in the map");
+            return true; 
         }
-        showMessage(ticker,newStock.ticker + "is not located in the map. Please try a different value");
-        return false;
+        showMessage(tickerInput,"Ticker: " + ticker.toUpperCase() + " is not in the current map. ");
+        System.out.println("Ticker is not in the map");
+        return false; 
     }
 
     // Display the error message in a dialog box with "Invalid Entry" as the

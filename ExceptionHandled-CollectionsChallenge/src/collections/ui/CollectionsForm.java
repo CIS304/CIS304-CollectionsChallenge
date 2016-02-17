@@ -313,7 +313,7 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_hashAddButtonActionPerformed
 
     private void hashDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashDeleteButtonActionPerformed
-        if (isDeleteValid()) {
+        if (isDeleteValid(hashMap)) {
             hashMap.remove(tickerField.getText().toUpperCase());
             displayMaps(hashMap, hashMapTextArea);
         }
@@ -328,7 +328,7 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_treeAddButtonActionPerformed
 
     private void treeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_treeDeleteButtonActionPerformed
-        if (isDeleteValid()) {
+        if (isDeleteValid(treeMap)) {
             treeMap.remove(tickerField.getText().toUpperCase());
             displayMaps(treeMap, treeMapTextArea);
         }
@@ -398,19 +398,19 @@ public class CollectionsForm extends javax.swing.JFrame {
 
     private boolean isValidData() {
         SwingValidator sv = new SwingValidator();
-        return sv.isPresent(tickerField, jLabel2.getText())
-                && sv.isPresent(priceField, jLabel3.getText())
-                && sv.isDoublePositive(priceField, jLabel3.getText())
-                && sv.isTickerValid(tickerField, jLabel2.getText());
+        return sv.isPresent(tickerField, tickerField.getText())
+                && sv.isPresent(priceField, tickerField.getText())
+                && sv.isDoublePositive(priceField, priceField.getText())
+                && sv.isTickerValid(tickerField, tickerField.getText());
 
     }
 
-    private boolean isDeleteValid() {
+    private boolean isDeleteValid(Map<String,String> map) {
         //check values before allowing delete button to work 
         SwingValidator sv = new SwingValidator();
         return sv.isPresent(tickerField, jLabel2.getText())
                 && sv.isTickerValid(tickerField, tickerField.getText())
-                && sv.isDeleteMapValid(hashMap, tickerField, priceField);
+                && sv.isTickerInMap(map, tickerField); 
 
     }
 
