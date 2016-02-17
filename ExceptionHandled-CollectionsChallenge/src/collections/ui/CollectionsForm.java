@@ -300,10 +300,8 @@ public class CollectionsForm extends javax.swing.JFrame {
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void queueRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queueRemoveButtonActionPerformed
-        if (isDeleteValid()) {
-            queue.poll();
-            displayQueue();
-        }
+        queue.poll();
+        displayQueue();
     }//GEN-LAST:event_queueRemoveButtonActionPerformed
 
     private void hashAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hashAddButtonActionPerformed
@@ -412,7 +410,7 @@ public class CollectionsForm extends javax.swing.JFrame {
         SwingValidator sv = new SwingValidator();
         return sv.isPresent(tickerField, jLabel2.getText())
                 && sv.isTickerValid(tickerField, tickerField.getText())
-                && sv.isDeleteLinkedListValid(queue, tickerField);
+                && sv.isDeleteMapValid(hashMap, tickerField, priceField);
 
     }
 
